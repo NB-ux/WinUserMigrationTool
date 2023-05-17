@@ -6,7 +6,7 @@ COPY:
 
 - User folder (pictures, downloads, Music, favorites, documents, desktop, videos)
 Status:
-
+GetAllNotHiddenUsers - function created. Lists all not hidden user folders under C:\Users.
 
 - network drives/folders
 Status:
