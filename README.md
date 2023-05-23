@@ -7,6 +7,7 @@ COPY:
 - User folder (pictures, downloads, Music, favorites, documents, desktop, videos)
 Status:
 GetAllNotHiddenUsers - function created. Lists all not hidden user folders under C:\Users.
+CopyPasteUser - function created. Copies files from given source dir (string) and places them into given target dir(string).
 
 - network drives/folders
 Status:
