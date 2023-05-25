@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -59,7 +60,14 @@ namespace WinUserMigrationTool
 
         private async void CopyTestButton_Click(object sender, RoutedEventArgs e)
         {
-            //CopyPasteUser(@"C:\temp\test1", @"C:\temp\test2");
+            //CopyPasteUser(@"C:\temp\testuser", @"C:\temp\testdestination\testuser");
+
+            var selectedItems = UserListBox.SelectedItems;
+            foreach (string item in selectedItems)
+            {
+                string topfolder = new DirectoryInfo(item).Name;
+                CopyPasteUser(item, AppDomain.CurrentDomain.BaseDirectory + topfolder);
+            }
 
         }
 
