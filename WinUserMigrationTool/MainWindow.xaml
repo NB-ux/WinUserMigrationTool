@@ -8,6 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Button x:Name="CopyTestButton" Content="Copy testman" HorizontalAlignment="Left" Margin="10,381,0,0" VerticalAlignment="Top" Height="43" Width="137" Click="CopyTestButton_Click"/>
+        <ListBox x:Name="UserListBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="217,108,355,112"/>
 
     </Grid>
 </Window>

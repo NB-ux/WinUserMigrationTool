@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace WinUserMigrationTool
@@ -14,7 +15,7 @@ namespace WinUserMigrationTool
             InitializeComponent();
         }
 
-        private async void GetAllNotHiddenUsers()
+        private async Task<List<string>> GetAllNotHiddenUsers()
         {
             var copydirs = new List<string>();
             string[] dirs = Directory.GetDirectories("C:\\Users");
@@ -27,6 +28,7 @@ namespace WinUserMigrationTool
                     copydirs.Add(dirinfo.FullName);
                 }
             }
+            return copydirs;
         }
 
         private async void CopyPasteUser(string sourcePath, string targetPath)
@@ -44,9 +46,21 @@ namespace WinUserMigrationTool
             }
         }
 
-        private void CopyTestButton_Click(object sender, RoutedEventArgs e)
+        private async void PopulateUserFolderListbox()
+        {
+            var task = GetAllNotHiddenUsers();
+            var userList = await task;
+
+            foreach (var user in userList)
+            {
+                UserListBox.Items.Add(user);
+            }
+        }
+
+        private async void CopyTestButton_Click(object sender, RoutedEventArgs e)
         {
             //CopyPasteUser(@"C:\temp\test1", @"C:\temp\test2");
+
         }
     }
 }

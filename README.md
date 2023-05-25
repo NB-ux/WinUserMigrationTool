@@ -8,6 +8,7 @@ COPY:
 Status:
 GetAllNotHiddenUsers - function created. Lists all not hidden user folders under C:\Users.
 CopyPasteUser - function created. Copies files from given source dir (string) and places them into given target dir(string).
+PopulateUserFolderListbox - function created. Populates listbox/view with not hidden user folders.
 
 - network drives/folders
 Status:
