@@ -62,5 +62,10 @@ namespace WinUserMigrationTool
             //CopyPasteUser(@"C:\temp\test1", @"C:\temp\test2");
 
         }
+
+        private void PopulateButton_Click(object sender, RoutedEventArgs e)
+        {
+            PopulateUserFolderListbox();
+        }
     }
 }

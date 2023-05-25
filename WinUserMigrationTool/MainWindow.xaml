@@ -9,7 +9,7 @@
     <Grid>
         <Button x:Name="CopyTestButton" Content="Copy paste selected" HorizontalAlignment="Left" Margin="10,381,0,0" VerticalAlignment="Top" Height="43" Width="137" Click="CopyTestButton_Click"/>
         <ListBox x:Name="UserListBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="217,108,355,112"/>
-        <Button x:Name="PopulateButton" Content="Populate listview" HorizontalAlignment="Left" Margin="176,381,0,0" VerticalAlignment="Top" Height="43" Width="155"/>
+        <Button x:Name="PopulateButton" Content="Populate listview" HorizontalAlignment="Left" Margin="176,381,0,0" VerticalAlignment="Top" Height="43" Width="155" Click="PopulateButton_Click"/>
 
     </Grid>
 </Window>
