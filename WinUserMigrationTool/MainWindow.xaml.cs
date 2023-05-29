@@ -34,16 +34,30 @@ namespace WinUserMigrationTool
 
         private async void CopyPasteUser(string sourcePath, string targetPath)
         {
-            //Now Create all of the directories
-            foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
+            try
             {
-                Directory.CreateDirectory(dirPath.Replace(sourcePath, targetPath));
-            }
+                string[] dirs = Directory.GetDirectories(sourcePath, "*");
+                //Now Create all of the directories
+                //Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories)
+                foreach (string dirPath in dirs)
+                {
+                    DirectoryInfo directoryInfo = new DirectoryInfo(dirPath);
+                    if (!directoryInfo.Attributes.HasFlag(FileAttributes.Hidden))
+                    {
+                        Directory.CreateDirectory(dirPath.Replace(sourcePath, targetPath));
+                    }
+                }
 
-            //Copy all the files & Replaces any files with the same name
-            foreach (string newPath in Directory.GetFiles(sourcePath, "*", SearchOption.AllDirectories))
+                //Copy all the files & Replaces any files with the same name
+                foreach (string newPath in Directory.GetFiles(sourcePath, "*"/*, SearchOption.AllDirectories*/))
+                {
+                    File.Copy(newPath, newPath.Replace(sourcePath, targetPath), true);
+                }
+                MessageBox.Show(sourcePath + " was copied to " + targetPath + " successfully!", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
             {
-                File.Copy(newPath, newPath.Replace(sourcePath, targetPath), true);
+                MessageBox.Show(ex.Message);
             }
         }
 
