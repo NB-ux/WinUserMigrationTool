@@ -12,7 +12,9 @@ PopulateUserFolderListbox - function created. Populates listbox/view with not hi
 
 - network drives/folders
 Status:
-
+GetNetworkDrives - fetches all available network drives and returns their unc paths. (work in progress)
+MapNetworkDrives - remaps fetched network drives.(work in progress)
+SaveUncsToConfig - Saves fetched network drive paths to conf under "paths" key.
 
 - printers / network printers
 Status:

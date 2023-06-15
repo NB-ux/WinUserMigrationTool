@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,8 +16,10 @@ namespace WinUserMigrationTool
         public MainWindow()
         {
             InitializeComponent();
+            config = ConfigurationManager.OpenExeConfiguration(System.Reflection.Assembly.GetExecutingAssembly().Location);
         }
 
+        private Configuration config;
         private async Task<List<string>> GetAllNotHiddenUsers()
         {
             var copydirs = new List<string>();
@@ -72,6 +76,45 @@ namespace WinUserMigrationTool
             }
         }
 
+        private async Task<List<string>> GetNetworkDrives()
+        {
+            DriveInfo[] driveInfos = DriveInfo.GetDrives();
+            List<string> networkDrives = new List<string>();
+            foreach (var driveInfo in driveInfos)
+            {
+                if (driveInfo.DriveType == DriveType.Network)
+                {
+                    networkDrives.Add(driveInfo.ToString());
+                }
+            }
+            return networkDrives;
+        }
+
+        private async void MapNetworkDrives(List<string> drives)
+        {
+            foreach (string drive in drives)
+            {
+                Process p = new Process();
+                p.StartInfo.UseShellExecute = false;
+                p.StartInfo.RedirectStandardOutput = true;
+                p.StartInfo.FileName = "net";
+                p.StartInfo.Arguments = $" use R: {drive}";
+                p.StartInfo.CreateNoWindow = true;
+                p.Start();
+                p.WaitForExit();
+                p.Dispose();
+            }
+        }
+
+        private async void SaveUncsToConfig(List<string> drives)
+        {
+            foreach (string drive in drives)
+            {
+                config.AppSettings.Settings.Add("paths", drive);
+            }
+            config.Save(ConfigurationSaveMode.Minimal);
+        }
+
         private async void CopyTestButton_Click(object sender, RoutedEventArgs e)
         {
             //CopyPasteUser(@"C:\temp\testuser", @"C:\temp\testdestination\testuser");
@@ -82,6 +125,10 @@ namespace WinUserMigrationTool
                 string topfolder = new DirectoryInfo(item).Name;
                 CopyPasteUser(item, AppDomain.CurrentDomain.BaseDirectory + topfolder);
             }
+            List<string> uncpaths = await GetNetworkDrives();
+            SaveUncsToConfig(uncpaths);
+            //uncpaths.Add("Z:\\");
+            //MapNetworkDrives(uncpaths);
 
         }
 
