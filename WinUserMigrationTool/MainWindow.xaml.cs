@@ -108,11 +108,19 @@ namespace WinUserMigrationTool
 
         private async void SaveUncsToConfig(List<string> drives)
         {
-            foreach (string drive in drives)
+            try
             {
-                config.AppSettings.Settings.Add("paths", drive);
+                foreach (string drive in drives)
+                {
+                    config.AppSettings.Settings.Add("paths", drive);
+                }
+                config.Save(ConfigurationSaveMode.Minimal);
             }
-            config.Save(ConfigurationSaveMode.Minimal);
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
         private async void CopyTestButton_Click(object sender, RoutedEventArgs e)
@@ -139,6 +147,7 @@ namespace WinUserMigrationTool
         {
             List<string> uncpaths = await GetNetworkDrives();
             SaveUncsToConfig(uncpaths);
+            MessageBox.Show("Network drive paths saved to config successfully!", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }
