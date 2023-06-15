@@ -125,8 +125,6 @@ namespace WinUserMigrationTool
                 string topfolder = new DirectoryInfo(item).Name;
                 CopyPasteUser(item, AppDomain.CurrentDomain.BaseDirectory + topfolder);
             }
-            List<string> uncpaths = await GetNetworkDrives();
-            SaveUncsToConfig(uncpaths);
             //uncpaths.Add("Z:\\");
             //MapNetworkDrives(uncpaths);
 
@@ -135,6 +133,12 @@ namespace WinUserMigrationTool
         private void PopulateButton_Click(object sender, RoutedEventArgs e)
         {
             PopulateUserFolderListbox();
+        }
+
+        private async void SaveNdrivesButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<string> uncpaths = await GetNetworkDrives();
+            SaveUncsToConfig(uncpaths);
         }
     }
 }
