@@ -12,7 +12,8 @@
         <Button x:Name="PopulateButton" Content="Populate listview" HorizontalAlignment="Left" Margin="10,333,0,0" VerticalAlignment="Top" Height="43" Width="155" Click="PopulateButton_Click"/>
         <Button x:Name="SaveNdrivesButton" Content="Save network drive paths" HorizontalAlignment="Left" Margin="170,381,0,0" VerticalAlignment="Top" Height="43" Width="154" Click="SaveNdrivesButton_Click"/>
         <ListBox x:Name="UserRestoreListbox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="515,106,48,110"/>
-        <Button x:Name="RestoreUserButton" Content="Restore user folder" HorizontalAlignment="Left" Margin="515,340,0,0" VerticalAlignment="Top" Height="36" Width="119"/>
+        <Button x:Name="RestoreUserButton" Content="Restore user folder" HorizontalAlignment="Left" Margin="515,381,0,0" VerticalAlignment="Top" Height="44" Width="159"/>
+        <Button x:Name="PopulateRestoreViewButton" Content="Populate listview" HorizontalAlignment="Left" Margin="515,333,0,0" VerticalAlignment="Top" Height="43" Width="159"/>
 
     </Grid>
 </Window>
