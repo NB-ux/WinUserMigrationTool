@@ -128,10 +128,15 @@ namespace WinUserMigrationTool
             //CopyPasteUser(@"C:\temp\testuser", @"C:\temp\testdestination\testuser");
 
             var selectedItems = UserListBox.SelectedItems;
+            string savedUsersdir = AppDomain.CurrentDomain.BaseDirectory + "CopiedUsers\\";
+            if (!Directory.Exists(savedUsersdir))
+            {
+                Directory.CreateDirectory(savedUsersdir);
+            }
             foreach (string item in selectedItems)
             {
                 string topfolder = new DirectoryInfo(item).Name;
-                CopyPasteUser(item, AppDomain.CurrentDomain.BaseDirectory + topfolder);
+                CopyPasteUser(item, savedUsersdir + topfolder);
             }
             //uncpaths.Add("Z:\\");
             //MapNetworkDrives(uncpaths);
