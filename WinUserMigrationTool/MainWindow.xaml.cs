@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace WinUserMigrationTool
 {
@@ -20,10 +21,11 @@ namespace WinUserMigrationTool
         }
 
         private Configuration config;
-        private async Task<List<string>> GetAllNotHiddenUsers()
+        private async Task<List<string>> GetAllNotHiddenUsers(string dirToCopyFrom)
         {
             var copydirs = new List<string>();
-            string[] dirs = Directory.GetDirectories("C:\\Users");
+            //string[] dirs = Directory.GetDirectories("C:\\Users");
+            string[] dirs = Directory.GetDirectories(dirToCopyFrom);
             DirectoryInfo dirin = new DirectoryInfo(dirs[0]);
             foreach (string dir in dirs)
             {
@@ -65,14 +67,31 @@ namespace WinUserMigrationTool
             }
         }
 
-        private async void PopulateUserFolderListbox()
+        private async void PopulateUserFolderListbox(ListBox incomingListBox)
         {
-            var task = GetAllNotHiddenUsers();
-            var userList = await task;
-
-            foreach (var user in userList)
+            // Populate local users list
+            if(incomingListBox.Name == "UserListBox")
             {
-                UserListBox.Items.Add(user);
+                var task = GetAllNotHiddenUsers("C:\\Users");
+                var userList = await task;
+
+                foreach (var user in userList)
+                {
+                    incomingListBox.Items.Add(user);
+                }
+            }
+
+            // Populate already copied users list
+            if(incomingListBox.Name == "UserRestoreListbox")
+            {
+                string restorableUsersFolders= AppDomain.CurrentDomain.BaseDirectory + "CopiedUsers\\";
+                var task = GetAllNotHiddenUsers(restorableUsersFolders);
+                var restoreUserList = await task;
+
+                foreach (var user in restoreUserList)
+                {
+                    incomingListBox.Items.Add(user);
+                }
             }
         }
 
@@ -145,7 +164,7 @@ namespace WinUserMigrationTool
 
         private void PopulateButton_Click(object sender, RoutedEventArgs e)
         {
-            PopulateUserFolderListbox();
+            PopulateUserFolderListbox(UserListBox);
         }
 
         private async void SaveNdrivesButton_Click(object sender, RoutedEventArgs e)
@@ -153,6 +172,11 @@ namespace WinUserMigrationTool
             List<string> uncpaths = await GetNetworkDrives();
             SaveUncsToConfig(uncpaths);
             MessageBox.Show("Network drive paths saved to config successfully!", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void PopulateRestoreViewButton_Click(object sender, RoutedEventArgs e)
+        {
+            PopulateUserFolderListbox(UserRestoreListbox);
         }
     }
 }
