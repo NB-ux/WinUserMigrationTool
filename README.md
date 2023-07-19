@@ -24,10 +24,6 @@ Status:
 Status:
 
 
-- browser saved passwords
-Status:
-
-
 - get outlook signatures
 Status:
 
@@ -48,7 +44,7 @@ Status:
 Status:
 
 
-- restore copied browser bookmarks and passwords
+- restore copied browser bookmarks
 Status:
 
 
