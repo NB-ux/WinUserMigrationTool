@@ -38,7 +38,7 @@ RESTORE:
 
 - restore copied user folders
 Status:
-
+RestoreUserButton - Restores copied selected users from removable drive to local pc. (CopyPasteUser function is used in reverse here kinda)
 
 - install network folders and printers
 Status:

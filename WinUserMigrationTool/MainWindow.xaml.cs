@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
@@ -177,6 +178,23 @@ namespace WinUserMigrationTool
         private void PopulateRestoreViewButton_Click(object sender, RoutedEventArgs e)
         {
             PopulateUserFolderListbox(UserRestoreListbox);
+        }
+
+        private void RestoreUserButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItems = UserRestoreListbox.Items;
+
+            string RestoreTo = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList", "ProfilesDirectory", "").ToString();
+
+            foreach (string item in selectedItems)
+            {
+                string topfolder = new DirectoryInfo(item).Name;
+                string localFolder = RestoreTo + topfolder;
+                if (!Directory.Exists(localFolder))
+                {
+                    CopyPasteUser(item, RestoreTo);
+                }   
+            }
         }
     }
 }
