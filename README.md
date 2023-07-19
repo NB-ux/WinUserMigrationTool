@@ -62,18 +62,18 @@ Status:
 
 - UI lists all users that can be copied and or restored.
 Status:
-
+Done but lists are updated only manually by pressing a button (for now)
 
 - UI lists all user folders too (maybe)
 Status:
-
+Does not list hidden folders. App fetches all non hidden folders under "Users".
 
 - Easy to use copy/restore
 Status:
-
+I guess yea. Lots of room for improvement tho.
 
 - user data is copied to the root of the usb into a folder named after the user (copied user)
 Status:
-
+Done bit differently. User is copied to the root yes but under "CopiedUsers" - folder. Bit more organized this way i think.
 
 ------------------------------------------------------------------------------------------
