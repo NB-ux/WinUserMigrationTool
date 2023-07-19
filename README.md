@@ -58,7 +58,7 @@ OTHER:
 
 - Launchable from usb (no installation)
 Status:
-
+Yes
 
 - UI lists all users that can be copied and or restored.
 Status:
