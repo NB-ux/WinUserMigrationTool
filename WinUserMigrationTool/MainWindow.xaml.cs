@@ -52,7 +52,9 @@ namespace WinUserMigrationTool
                 "Suosikit", "Favorites",
                 "Tiedostot", "Documents",
                 "Työpöytä", "Desktop",
-                "Videot", "Videos"
+                "Videot", "Videos",
+                //"AppData\\Local\\Google\\Chrome\\User Data\\Default"
+                "AppData"
             };
             foreach(string d in input)
             {
@@ -64,6 +66,10 @@ namespace WinUserMigrationTool
                     }
                 }
             }
+
+            int modifyIndex = filteredDirs.FindIndex(s => s.EndsWith("AppData"));
+            filteredDirs[modifyIndex] += "\\Local\\Google\\Chrome\\User Data\\Default";
+
             string[] output = filteredDirs.ToArray();
             return output;
         }
@@ -72,7 +78,7 @@ namespace WinUserMigrationTool
             try
             {
                 string[] dirs = Directory.GetDirectories(sourcePath, "*");
-
+                string test = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
                 string[] filteredDirs = FilterDirs(dirs);
 
                 //Now Create all of the directories
@@ -80,10 +86,11 @@ namespace WinUserMigrationTool
                 foreach (string dirPath in dirs)
                 {
                     DirectoryInfo directoryInfo = new DirectoryInfo(dirPath);
-                    if (!directoryInfo.Attributes.HasFlag(FileAttributes.Hidden))
+                    /*if (!directoryInfo.Attributes.HasFlag(FileAttributes.Hidden))
                     {
                         Directory.CreateDirectory(dirPath.Replace(sourcePath, targetPath));
-                    }
+                    }*/
+                    Directory.CreateDirectory(dirPath.Replace(sourcePath, targetPath));
                 }
 
                 //Copy all the files & Replaces any files with the same name
