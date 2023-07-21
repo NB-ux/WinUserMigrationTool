@@ -7,6 +7,8 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Linq;
+using System.DirectoryServices;
 
 namespace WinUserMigrationTool
 {
@@ -39,11 +41,40 @@ namespace WinUserMigrationTool
             return copydirs;
         }
 
+        public string[] FilterDirs(string[] input)
+        {
+            List<string> filteredDirs = new List<string>();
+            string[] filter = 
+            {
+                "Kuvat", "Pictures", 
+                "Ladatut tiedostot", "Downloads", 
+                "Musiikki", "Music", 
+                "Suosikit", "Favorites",
+                "Tiedostot", "Documents",
+                "Työpöytä", "Desktop",
+                "Videot", "Videos"
+            };
+            foreach(string d in input)
+            {
+                foreach (string f in filter)
+                {
+                    if (d.EndsWith(f))
+                    {
+                        filteredDirs.Add(d);
+                    }
+                }
+            }
+            string[] output = filteredDirs.ToArray();
+            return output;
+        }
         private async void CopyPasteUser(string sourcePath, string targetPath)
         {
             try
             {
                 string[] dirs = Directory.GetDirectories(sourcePath, "*");
+
+                string[] filteredDirs = FilterDirs(dirs);
+
                 //Now Create all of the directories
                 //Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories)
                 foreach (string dirPath in dirs)
