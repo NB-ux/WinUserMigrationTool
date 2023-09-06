@@ -122,7 +122,7 @@ namespace WinUserMigrationTool
             }
 
             // Populate already copied users list
-            if(incomingListBox.Name == "UserRestoreListbox")
+            if(incomingListBox.Name == "UserRestoreListbox" && incomingListBox.Items.IsEmpty)
             {
                 string restorableUsersFolders= AppDomain.CurrentDomain.BaseDirectory + "CopiedUsers\\";
                 var task = GetAllNotHiddenUsers(restorableUsersFolders);
