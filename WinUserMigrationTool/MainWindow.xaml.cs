@@ -41,9 +41,47 @@ namespace WinUserMigrationTool
             return copydirs;
         }
 
+        public List<string> NonUserFolderFilter(List<string> input)
+        {
+            List<string> filtered = new List<string>();
+            filtered.AddRange(input);
+            string[] filter =
+            {
+                "3D Objects",
+                "ansel",
+                "Contacts",
+                "Desktop",
+                "Documents",
+                "Downloads",
+                "Favorites",
+                "Links",
+                "Music",
+                "OneDrive",
+                "Pictures",
+                "Public",
+                "Saved Games",
+                "Searches",
+                "Videos"
+            };
+
+            foreach (string d in input)
+            {
+                foreach (string f in filter)
+                {
+                    if (d.EndsWith(f))
+                    {
+                        filtered.Remove(d);
+                    }
+                }
+            }
+
+            return filtered;
+
+        }
+
+        //Folders that are included in Copy process.
         public string[] FilterDirs(string[] input)
         {
-            //things to include
             List<string> filteredDirs = new List<string>();
             string[] filter = 
             {
@@ -114,8 +152,9 @@ namespace WinUserMigrationTool
             {
                 var task = GetAllNotHiddenUsers("C:\\Users");
                 var userList = await task;
+                var newList = NonUserFolderFilter(userList);
 
-                foreach (var user in userList)
+                foreach (var user in newList)
                 {
                     incomingListBox.Items.Add(user);
                 }
