@@ -228,7 +228,7 @@ namespace WinUserMigrationTool
             foreach (string item in selectedItems)
             {
                 string topfolder = new DirectoryInfo(item).Name;
-                string localFolder = RestoreTo + topfolder;
+                string localFolder = RestoreTo + "\\" + topfolder;
                 if (!Directory.Exists(localFolder))
                 {
                     CopyPasteUser(item, RestoreTo);

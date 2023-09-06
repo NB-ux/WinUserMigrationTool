@@ -4,10 +4,10 @@ Copies user data + restores user data.
 ------------------------------------------------------------------------------------------
 COPY:
 
-- User folder (pictures, downloads, Music, favorites, documents, desktop, videos)
+- User folder (pictures, downloads, Music, favorites, documents, desktop, videos, and AppData\\Local\\Google\\Chrome\\User Data\\Default)
 Status:
 GetAllNotHiddenUsers - function created. Lists all not hidden user folders under whatever path was given as parameter. Now more generalized.
-CopyPasteUser - function created. Copies files from given source dir (string) and places them into given target dir(string) Things to copy (Pictures, Downloads, Music, Favorites, Documents, Desktop, Videos and AppData\\Local\\Google\\Chrome\\User Data\\Default).
+CopyPasteUser - function created. Copies files from given source dir (string) and places them into given target dir(string) Things to copy.
 PopulateUserFolderListbox - function created. Populates listbox/view with not hidden user folders. Now more generalized, can be used to populate both listviews.
 
 - network drives/folders
