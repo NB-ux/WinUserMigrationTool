@@ -43,6 +43,7 @@ namespace WinUserMigrationTool
 
         public string[] FilterDirs(string[] input)
         {
+            //things to include
             List<string> filteredDirs = new List<string>();
             string[] filter = 
             {
@@ -83,7 +84,7 @@ namespace WinUserMigrationTool
 
                 //Now Create all of the directories
                 //Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories)
-                foreach (string dirPath in dirs)
+                foreach (string dirPath in filteredDirs)
                 {
                     DirectoryInfo directoryInfo = new DirectoryInfo(dirPath);
                     /*if (!directoryInfo.Attributes.HasFlag(FileAttributes.Hidden))
