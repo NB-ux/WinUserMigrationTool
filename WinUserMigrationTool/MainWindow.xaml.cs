@@ -169,7 +169,8 @@ namespace WinUserMigrationTool
 
                 foreach (var user in restoreUserList)
                 {
-                    incomingListBox.Items.Add(user);
+                    string topfolder = new DirectoryInfo(user).Name;
+                    incomingListBox.Items.Add(topfolder);
                 }
             }
         }
