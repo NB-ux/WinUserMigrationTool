@@ -110,7 +110,7 @@ namespace WinUserMigrationTool
         private async void PopulateUserFolderListbox(ListBox incomingListBox)
         {
             // Populate local users list
-            if(incomingListBox.Name == "UserListBox")
+            if(incomingListBox.Name == "UserListBox" && incomingListBox.Items.IsEmpty)
             {
                 var task = GetAllNotHiddenUsers("C:\\Users");
                 var userList = await task;

@@ -22,7 +22,7 @@ Status:
 
 - browser bookmarks
 Status:
-
+CopyPasteUser - Now handles chrome bookmark copying also.
 
 - get outlook signatures
 Status:
