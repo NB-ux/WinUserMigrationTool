@@ -259,19 +259,41 @@ namespace WinUserMigrationTool
             PopulateUserFolderListbox(UserRestoreListbox);
         }
 
+        // searches location by topmost and returns topmost folders path
+        //topmost = topmost folders name. location = Function searches for path inside this folder. 
+        private string GetPathByName(string topmost, string location)
+        {
+            string[] allFolders = Directory.GetDirectories(location);
+            string pathToReturn = "";
+
+            foreach (string folder in allFolders)
+            {
+                string topfolder = new DirectoryInfo(folder).Name;
+                if(topfolder == topmost)
+                {
+                    pathToReturn = folder;
+                    break;
+                }
+            }
+            return pathToReturn;
+        }
+
         private void RestoreUserButton_Click(object sender, RoutedEventArgs e)
         {
+            //GetPathByName("test", @"C:\\Users\\Niko\\source\\repos\\WinUserMigrationTool\\WinUserMigrationTool\\bin\\Debug\\net6.0-windows\\CopiedUsers");
             var selectedItems = UserRestoreListbox.Items;
 
             string RestoreTo = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList", "ProfilesDirectory", "").ToString();
+            string CopiedUsersFolder = AppDomain.CurrentDomain.BaseDirectory + "CopiedUsers\\";
 
             foreach (string item in selectedItems)
             {
+                string itempath = GetPathByName(item, CopiedUsersFolder);
                 string topfolder = new DirectoryInfo(item).Name;
                 string localFolder = RestoreTo + "\\" + topfolder;
                 if (!Directory.Exists(localFolder))
                 {
-                    CopyPasteUser(item, RestoreTo);
+                    CopyPasteUser(itempath, RestoreTo);
                 }   
             }
         }
