@@ -19,7 +19,6 @@ SaveUncsToConfig - Saves fetched network drive paths to conf under "paths" key.
 - printers / network printers
 Status:
 
-
 - browser bookmarks
 Status:
 CopyPasteUser - Now handles chrome bookmark copying also.

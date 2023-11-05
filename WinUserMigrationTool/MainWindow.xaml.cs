@@ -7,8 +7,6 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Linq;
-using System.DirectoryServices;
 
 namespace WinUserMigrationTool
 {
@@ -83,11 +81,11 @@ namespace WinUserMigrationTool
         public string[] FilterDirs(string[] input)
         {
             List<string> filteredDirs = new List<string>();
-            string[] filter = 
+            string[] filter =
             {
-                "Kuvat", "Pictures", 
-                "Ladatut tiedostot", "Downloads", 
-                "Musiikki", "Music", 
+                "Kuvat", "Pictures",
+                "Ladatut tiedostot", "Downloads",
+                "Musiikki", "Music",
                 "Suosikit", "Favorites",
                 "Tiedostot", "Documents",
                 "Työpöytä", "Desktop",
@@ -95,7 +93,7 @@ namespace WinUserMigrationTool
                 //"AppData\\Local\\Google\\Chrome\\User Data\\Default"
                 "AppData"
             };
-            foreach(string d in input)
+            foreach (string d in input)
             {
                 foreach (string f in filter)
                 {
@@ -148,7 +146,7 @@ namespace WinUserMigrationTool
         private async void PopulateUserFolderListbox(ListBox incomingListBox)
         {
             // Populate local users list
-            if(incomingListBox.Name == "UserListBox" && incomingListBox.Items.IsEmpty)
+            if (incomingListBox.Name == "UserListBox" && incomingListBox.Items.IsEmpty)
             {
                 var task = GetAllNotHiddenUsers("C:\\Users");
                 var userList = await task;
@@ -161,9 +159,9 @@ namespace WinUserMigrationTool
             }
 
             // Populate already copied users list
-            if(incomingListBox.Name == "UserRestoreListbox" && incomingListBox.Items.IsEmpty)
+            if (incomingListBox.Name == "UserRestoreListbox" && incomingListBox.Items.IsEmpty)
             {
-                string restorableUsersFolders= AppDomain.CurrentDomain.BaseDirectory + "CopiedUsers\\";
+                string restorableUsersFolders = AppDomain.CurrentDomain.BaseDirectory + "CopiedUsers\\";
                 var task = GetAllNotHiddenUsers(restorableUsersFolders);
                 var restoreUserList = await task;
 
@@ -269,7 +267,7 @@ namespace WinUserMigrationTool
             foreach (string folder in allFolders)
             {
                 string topfolder = new DirectoryInfo(folder).Name;
-                if(topfolder == topmost)
+                if (topfolder == topmost)
                 {
                     pathToReturn = folder;
                     break;
@@ -294,8 +292,13 @@ namespace WinUserMigrationTool
                 if (!Directory.Exists(localFolder))
                 {
                     CopyPasteUser(itempath, RestoreTo);
-                }   
+                }
             }
+        }
+
+        private void SaveAllPrinters_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
