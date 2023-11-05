@@ -18,6 +18,8 @@ SaveUncsToConfig - Saves fetched network drive paths to conf under "paths" key.
 
 - printers / network printers
 Status:
+GetPrinters - Returns names of all network/local printers, depending on the option chosen.
+InstallLocalPrinters - Accepts list of printer names as a parameter and installs them.
 
 - browser bookmarks
 Status:

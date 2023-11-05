@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
+using System.Drawing.Printing;
 using System.IO;
+using System.Printing;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -220,6 +222,54 @@ namespace WinUserMigrationTool
 
         }
 
+        private async void InstallLocalPrinters(List<string> printernames)
+        {
+            LocalPrintServer printServer = new LocalPrintServer();
+
+            foreach (string printerName in printernames)
+            {
+                PrintQueue newPrinter = new PrintQueue(printServer, printerName);
+
+                newPrinter.Commit();
+            }
+        }
+
+        private async Task<List<string>> GetPrinters(string option)
+        {
+
+            PrinterSettings printerSettings = new PrinterSettings();
+            List<string> localPrinters = new List<string>();
+            List<string> networkPrinters = new List<string>();
+
+            switch (option)
+            {
+                case "local":
+
+                    foreach (string lprinter in PrinterSettings.InstalledPrinters)
+                    {
+                        localPrinters.Add(lprinter);
+                    }
+                    break;
+
+                case "network":
+
+
+                    break;
+            }
+            if (localPrinters.Count > 0)
+            {
+                return localPrinters;
+            }
+            else if (networkPrinters.Count > 0)
+            {
+                return networkPrinters;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         private async void CopyTestButton_Click(object sender, RoutedEventArgs e)
         {
             //CopyPasteUser(@"C:\temp\testuser", @"C:\temp\testdestination\testuser");
@@ -296,9 +346,11 @@ namespace WinUserMigrationTool
             }
         }
 
-        private void SaveAllPrinters_Click(object sender, RoutedEventArgs e)
+        private async void SaveAllPrinters_Click(object sender, RoutedEventArgs e)
         {
-
+            var task = GetPrinters("local");
+            List<string> printers = await task;
+            InstallLocalPrinters(printers);
         }
     }
 }
