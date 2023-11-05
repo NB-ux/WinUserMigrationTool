@@ -205,15 +205,18 @@ namespace WinUserMigrationTool
             }
         }
 
-        private async void SaveUncsToConfig(List<string> drives)
+        private async Task SaveUncsToConfig(List<string> drives)
         {
             try
             {
+
                 foreach (string drive in drives)
                 {
                     config.AppSettings.Settings.Add("paths", drive);
                 }
-                config.Save(ConfigurationSaveMode.Minimal);
+
+                config.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection("appSettings");
             }
             catch (Exception ex)
             {
@@ -298,7 +301,7 @@ namespace WinUserMigrationTool
         private async void SaveNdrivesButton_Click(object sender, RoutedEventArgs e)
         {
             List<string> uncpaths = await GetNetworkDrives();
-            SaveUncsToConfig(uncpaths);
+            await SaveUncsToConfig(uncpaths);
             MessageBox.Show("Network drive paths saved to config successfully!", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
