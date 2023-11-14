@@ -21,8 +21,14 @@ namespace WinUserMigrationTool
         {
             InitializeComponent();
             config = ConfigurationManager.OpenExeConfiguration(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            CopiedUsersSTR = AppDomain.CurrentDomain.BaseDirectory + "CopiedUsers\\";
+            if (!Directory.Exists(CopiedUsersSTR))
+            {
+                Directory.CreateDirectory(CopiedUsersSTR);
+            }
         }
 
+        private string CopiedUsersSTR;
         private Configuration config;
         private async Task<List<string>> GetAllNotHiddenUsers(string dirToCopyFrom)
         {
@@ -163,8 +169,7 @@ namespace WinUserMigrationTool
             // Populate already copied users list
             if (incomingListBox.Name == "UserRestoreListbox" && incomingListBox.Items.IsEmpty)
             {
-                string restorableUsersFolders = AppDomain.CurrentDomain.BaseDirectory + "CopiedUsers\\";
-                var task = GetAllNotHiddenUsers(restorableUsersFolders);
+                var task = GetAllNotHiddenUsers(CopiedUsersSTR);
                 var restoreUserList = await task;
 
                 foreach (var user in restoreUserList)
@@ -273,20 +278,24 @@ namespace WinUserMigrationTool
             }
         }
 
+        private void SaveOutlookSignatures(object sender, RoutedEventArgs e)
+        {
+            //CopyPasteUser(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+        }
+
         private async void CopyTestButton_Click(object sender, RoutedEventArgs e)
         {
             //CopyPasteUser(@"C:\temp\testuser", @"C:\temp\testdestination\testuser");
 
             var selectedItems = UserListBox.SelectedItems;
-            string savedUsersdir = AppDomain.CurrentDomain.BaseDirectory + "CopiedUsers\\";
-            if (!Directory.Exists(savedUsersdir))
+            if (!Directory.Exists(CopiedUsersSTR))
             {
-                Directory.CreateDirectory(savedUsersdir);
+                Directory.CreateDirectory(CopiedUsersSTR);
             }
             foreach (string item in selectedItems)
             {
                 string topfolder = new DirectoryInfo(item).Name;
-                CopyPasteUser(item, savedUsersdir + topfolder);
+                CopyPasteUser(item, CopiedUsersSTR + topfolder);
             }
             //uncpaths.Add("Z:\\");
             //MapNetworkDrives(uncpaths);
@@ -335,11 +344,10 @@ namespace WinUserMigrationTool
             var selectedItems = UserRestoreListbox.Items;
 
             string RestoreTo = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList", "ProfilesDirectory", "").ToString();
-            string CopiedUsersFolder = AppDomain.CurrentDomain.BaseDirectory + "CopiedUsers\\";
 
             foreach (string item in selectedItems)
             {
-                string itempath = GetPathByName(item, CopiedUsersFolder);
+                string itempath = GetPathByName(item, CopiedUsersSTR);
                 string topfolder = new DirectoryInfo(item).Name;
                 string localFolder = RestoreTo + "\\" + topfolder;
                 if (!Directory.Exists(localFolder))
