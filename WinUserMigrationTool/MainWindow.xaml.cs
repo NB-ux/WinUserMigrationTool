@@ -278,11 +278,6 @@ namespace WinUserMigrationTool
             }
         }
 
-        private void SaveOutlookSignatures(object sender, RoutedEventArgs e)
-        {
-            //CopyPasteUser(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
-        }
-
         private async void CopyTestButton_Click(object sender, RoutedEventArgs e)
         {
             //CopyPasteUser(@"C:\temp\testuser", @"C:\temp\testdestination\testuser");
@@ -296,9 +291,50 @@ namespace WinUserMigrationTool
             {
                 string topfolder = new DirectoryInfo(item).Name;
                 CopyPasteUser(item, CopiedUsersSTR + topfolder);
+                CopyUserOutlookSignatures(topfolder);
             }
             //uncpaths.Add("Z:\\");
             //MapNetworkDrives(uncpaths);
+
+        }
+
+        private async void CopyUserOutlookSignatures(string UserName)
+        {
+            try
+            {
+                string CopiedOutlookSignatures = CopiedUsersSTR + UserName + "\\" + "CopiedOutlookSignatures";
+                if (!Directory.Exists(CopiedOutlookSignatures))
+                {
+                    Directory.CreateDirectory(CopiedOutlookSignatures);
+                }
+                string userappdataFolder = string.Format(@"C:\Users\{0}\AppData\Roaming\Microsoft", UserName);
+
+                string[] subfolders = Directory.GetDirectories(userappdataFolder);
+
+                foreach (var subfolder in subfolders)
+                {
+                    var topdir = new DirectoryInfo(subfolder).Name;
+                    if (topdir == "Signatures" || topdir == "Allekirjoitukset")
+                    {
+                        //CopyPasteUser(userappdataFolder + "\\" + topdir, CopiedOutlookSignatures);
+                        string[] signs = Directory.GetFiles(userappdataFolder + "\\" + topdir);
+
+                        foreach (string sign in signs)
+                        {
+                            var topfile = new FileInfo(sign).Name;
+                            File.Copy(sign, CopiedOutlookSignatures + "\\" + topfile);
+                        }
+                        break;
+                    }
+                }
+
+
+                //CopyPasteUser(userappdataFolder, CopiedOutlookSignatures);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
         }
 
